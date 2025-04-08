@@ -102,13 +102,13 @@ jobs:
         run: |
           set -x
           DOCKER_ORG_REPO="${DOCKER_ORG}/${DOCKER_REPO}"
-          echo ::set-output name=docker_org_repo::${DOCKER_ORG_REPO}
+          echo "docker_org_repo=${DOCKER_ORG_REPO}" >> "$GITHUB_OUTPUT"
           DOCKER_TAG_LATEST=${DOCKER_ORG_REPO}:${{ matrix.DOCKER_TAG_ONLY }}
-          echo ::set-output name=docker_tag_latest::${DOCKER_TAG_LATEST}
+          echo "docker_tag_latest=${DOCKER_TAG_LATEST}" >> "$GITHUB_OUTPUT"          
           ORG_NAME=iann0036
           REPO_NAME=iamlive
           IAMLIVE_VERSION="v$(curl -s https://api.github.com/repos/${ORG_NAME}/${REPO_NAME}/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f1)"
-          echo ::set-output name=iamlive_version::${IAMLIVE_VERSION}
+          echo "iamlive_version=${IAMLIVE_VERSION}" >> "$GITHUB_OUTPUT"
           echo "Will push IAMLIVE_VERSION: ${IAMLIVE_VERSION}"
           set +x
       - name: Set up Docker Buildx
