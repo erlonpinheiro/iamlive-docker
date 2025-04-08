@@ -37,11 +37,11 @@ jobs:
         run: |
           set -x
           DOCKER_ORG_REPO="${DOCKER_ORG}/${DOCKER_REPO}"
-          echo ::set-output name=docker_org_repo::${DOCKER_ORG_REPO}
+          echo "docker_org_repo=${DOCKER_ORG_REPO}" >> "$GITHUB_OUTPUT"
           DOCKER_TAG_LATEST=${DOCKER_ORG_REPO}:${{ matrix.DOCKER_TAG_ONLY }}
-          echo ::set-output name=docker_tag_latest::${DOCKER_TAG_LATEST}
+          echo "docker_tag_latest=${DOCKER_TAG_LATEST}" >> "$GITHUB_OUTPUT"
           DOCKER_TAG_RELEASE=${DOCKER_ORG_REPO}:${{ matrix.DOCKER_TAG_ONLY }}-${GITHUB_SHA:0:8}
-          echo ::set-output name=docker_tag_release::${DOCKER_TAG_RELEASE}
+          echo "docker_tag_release=${DOCKER_TAG_RELEASE}" >> "$GITHUB_OUTPUT"
           set +x
       - name: Set up Docker Buildx
         id: buildx

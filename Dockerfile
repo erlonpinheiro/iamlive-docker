@@ -5,7 +5,7 @@ ARG IAMLIVE_VERSION=v1.1.23
 # Base image
 FROM alpine:${ALPINE_VERSION} AS base
 RUN apk --update upgrade && \
-    apk add --update ca-certificates bash jq=~1.6 && \
+    apk add --update ca-certificates bash jq=~1.7 && \
     update-ca-certificates
 
 
