@@ -1,6 +1,6 @@
 # iamlive-docker
 
-[![Push latest version to DockerHub](https://github.com/unfor19/iamlive-docker/actions/workflows/release.yml/badge.svg)](https://github.com/unfor19/iamlive-docker/actions/workflows/release.yml) [![Dockerhub pulls](https://img.shields.io/docker/pulls/unfor19/iamlive-docker)](https://hub.docker.com/r/unfor19/iamlive-docker)
+[![Push latest version to DockerHub](https://github.com/erlonpinheiro/iamlive-docker/actions/workflows/release.yml/badge.svg)](https://github.com/erlonpinheiro/iamlive-docker/actions/workflows/release.yml) [![Dockerhub pulls](https://img.shields.io/docker/pulls/erlonpinheiro/iamlive-docker)](https://hub.docker.com/r/erlonpinheiro/iamlive-docker)
 
 
 Run [iamlive](https://github.com/iann0036/iamlive) as a Docker container.
@@ -95,7 +95,7 @@ To read more about how iamlive works, see [Determining AWS IAM Policies Accordin
 1.  **Terminal #1**: Do your thing again ;)
 ## Authors
 
-Created and maintained by [Meir Gabay](https://github.com/unfor19)
+This repository is maintained by [Erlon Pinheiro](https://github.com/erlonpinheiro) but it is based on the original created and maintained by [Meir Gabay](https://github.com/unfor19)
 
 ## License
 
