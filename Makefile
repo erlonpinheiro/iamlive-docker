@@ -1,9 +1,10 @@
 .EXPORT_ALL_VARIABLES:
-_DOCKER_IMAGE=unfor19/iamlive-docker
+_DOCKER_IMAGE=erlonpinheiro/iamlive-docker
 _DOCKER_TAG=latest
 _DOCKER_FULL_TAG=$(_DOCKER_IMAGE):$(_DOCKER_TAG)
 _DOCKER_CONTAINER_NAME=iamlive-docker
-_ALPINECI_FULL_TAG=unfor19/alpine-ci:latest-7437025b
+_ALPINECI_FULL_TAG=unfor19/alpine-ci:latest
+# _ALPINECI_FULL_TAG=unfor19/alpine-ci:latest-7437025b
 _CA_DIR=${PWD}/.certs
 
 help:                                 ## Available make commands
