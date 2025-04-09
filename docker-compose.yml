@@ -1,0 +1,16 @@
+services:
+  iamlive:
+    image: erlonpinheiro/iamlive-docker:latest
+    container_name: iamlive-proxy
+    command: >
+      --mode proxy
+      --bind-addr 0.0.0.0:10080
+      --force-wildcard-resource
+      --output-file /home/appuser/logs/iamlive.log
+    ports:
+      - "80:10080"
+      - "443:10080"
+    volumes:
+      - ./iamlive/.iamlive:/home/appuser/.iamlive
+      - ./iamlive/logs:/home/appuser/logs
+    restart: unless-stopped
