@@ -164,7 +164,7 @@ To read more about how iamlive works, see [Determining AWS IAM Policies Accordin
 
 7. Force flushing the log file
     ```bash
-    docker exec iamlive-proxy sh -c 'sync'
+    docker exec iamlive-proxy kill -HUP 1
     ```
 
 8. Remove container, cleanup directories, and unset environment variables
