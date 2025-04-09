@@ -16,7 +16,7 @@ To read more about how iamlive works, see [Determining AWS IAM Policies Accordin
 
 ## Getting Started
 
-### Run iamlive by building the Docker image locally
+## Run iamlive by building the Docker image locally
 
 1. Git clone this repo, **or** [curl](https://curl.se/) relevant files
    ```
@@ -95,7 +95,7 @@ To read more about how iamlive works, see [Determining AWS IAM Policies Accordin
 1.  **Terminal #1**: Do your thing again ;)
 
 
-### Run iamlive by docker compose
+## Run iamlive by docker compose
 
 1. Git clone this repo, **or** [curl](https://curl.se/) the docker-compose file
    ```bash
@@ -178,6 +178,44 @@ To read more about how iamlive works, see [Determining AWS IAM Policies Accordin
     unset HTTPS_PROXY
     unset AWS_CA_BUNDLE
     ```
+
+## Troubleshooting
+
+### Permission denied on ca.pem when using iamlive with AWS CLI
+
+❌ Problem -> SSL validation failed for https://ec2.us-east-1.amazonaws.com/ [Errno 13] Permission denied
+
+You are running AWS CLI commands like: 
+
+```bash 
+aws ec2 describe-instances
+```
+
+And encounter this error:
+
+```
+SSL validation failed for https://ec2.us-east-1.amazonaws.com/ [Errno 13] Permission denied
+````
+
+📌 Cause -> The error is caused by the AWS CLI being unable to read the generated CA file ca.pem.
+
+This file is created inside the container by the appuser, but on the host machine, it’s owned by another user (e.g. dhcpcd or root) and is not readable by your current user.
+
+You can verify this with:
+
+```bash
+ls -la ./iamlive/.iamlive/
+
+-rw------- 1 dhcpcd messagebus 3243 ca.key
+-rw------- 1 dhcpcd messagebus 2057 ca.pem
+```
+
+✅ Solution -> Fix the file permissions to make them readable
+
+```bash
+sudo chmod 644 "$PWD/iamlive/.iamlive/ca.pem"
+```
+
 
 ## Authors
 
