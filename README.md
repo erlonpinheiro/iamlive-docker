@@ -105,6 +105,7 @@ To read more about how iamlive works, see [Determining AWS IAM Policies Accordin
 2. Create the required local directories
    ```bash
    mkdir -p "$PWD/iamlive/logs" "$PWD/iamlive/.iamlive"
+   chmod o+w -R "$PWD/iamlive"
    ```
 
 3. Start the container
