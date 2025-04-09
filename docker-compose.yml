@@ -2,11 +2,16 @@ services:
   iamlive:
     image: erlonpinheiro/iamlive-docker:latest
     container_name: iamlive-proxy
-    command: >
-      --mode proxy
-      --bind-addr 0.0.0.0:10080
-      --force-wildcard-resource
-      --output-file /home/appuser/logs/iamlive.log
+    command:
+      - --mode
+      - proxy                           # Run in proxy mode to intercept AWS calls
+      - --bind-addr
+      - 0.0.0.0:10080                   # Bind to all interfaces on port 10080
+      - --force-wildcard-resource       # Automatically wildcard AWS resource ARNs in the policy
+      - --output-file
+      - /home/appuser/logs/iamlive.log  # Save generated policy to this file  
+      # - --fails-only                    # when set, only failed AWS calls will be added to the policy, csm mode only (default: false) (AWS only)
+      # - --debug                         # dumps associated HTTP requests when set in proxy mode (default: false)
     ports:
       - "80:10080"
       - "443:10080"

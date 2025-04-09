@@ -94,6 +94,7 @@ To read more about how iamlive works, see [Determining AWS IAM Policies Accordin
    ```
 1.  **Terminal #1**: Do your thing again ;)
 
+
 ### Run iamlive by docker compose
 
 1. Git clone this repo, **or** [curl](https://curl.se/) the docker-compose file
