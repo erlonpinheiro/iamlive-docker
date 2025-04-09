@@ -16,7 +16,7 @@ To read more about how iamlive works, see [Determining AWS IAM Policies Accordin
 
 ## Getting Started
 
-### Run iamlive
+### Run iamlive by building the Docker image locally
 
 1. Git clone this repo, **or** [curl](https://curl.se/) relevant files
    ```
@@ -93,6 +93,90 @@ To read more about how iamlive works, see [Determining AWS IAM Policies Accordin
    make start
    ```
 1.  **Terminal #1**: Do your thing again ;)
+
+### Run iamlive by docker compose
+
+1. Git clone this repo, **or** [curl](https://curl.se/) the docker-compose file
+   ```bash
+   curl -L --remote-name-all https://raw.githubusercontent.com/erlonpinheiro/iamlive-docker/master/docker-compose.yml
+   ```
+
+2. Create the required local directories
+   ```bash
+   mkdir -p "$PWD/iamlive/logs" "$PWD/iamlive/.iamlive"
+   ```
+
+3. Start the container
+   ```bash
+   docker compose up -d
+   ```
+    The container will start the proxy listening on ports 80 and 443, internally mapped to port 10080.
+
+    Logs will be written to $PWD/iamlive/logs/iamlive.log
+
+    The generated certificate will be located at $PWD/iamlive/.iamlive/ca.pem
+
+4. Automatically start the container on reboot (optional)
+   ```bash
+   docker update --restart=always iamlive-proxy
+   ```
+
+5. Export environment variables to redirect AWS CLI / Terraform traffic
+
+    Set AWS credentials
+    ```bash
+    export AWS_PROFILE=MY_AWS_PROFILE
+    ```
+
+    **OR**
+    ```bash
+    export AWS_ACCESS_KEY_ID=MY_AWS_ACCESS_KEY_ID
+    export AWS_SECRET_ACCESS_KEY=MY_AWS_SECRET_ACCESS_KEY
+    ```
+
+    Set required environment variables [HTTP_PROXY, HTTPS_PROXY](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-proxy.html) and [AWS_CA_BUNDLE](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html#envvars-list)
+
+    ```bash
+    export \
+        HTTP_PROXY=http://127.0.0.1:80 \
+        HTTPS_PROXY=http://127.0.0.1:443 \
+        AWS_CA_BUNDLE="$PWD/iamlive/.iamlive/ca.pem"
+    ```
+
+    ⚠️ Important:
+
+        - Do not export these variables before running terraform init.    
+        - Terraform init downloads Terraform providers and plugins from public registries which do not support self-signed certificates.
+        - This may cause certificate validation errors.
+        - Only export these variables after initialization is complete to monitor AWS calls.
+
+6. Viewing logs
+
+    Display log content:
+    ```bash
+    cat "$PWD/iamlive/logs/iamlive.log"
+    ```
+
+    Live streaming the log (real-time output):
+    ```bash
+    docker logs -f iamlive-proxy
+    ```
+
+7. Force flushing the log file
+    ```bash
+    docker exec iamlive-proxy sh -c 'sync'
+    ```
+
+8. Remove container, cleanup directories, and unset environment variables
+    ```bash
+    docker compose down
+    rm -rf "$PWD/iamlive/logs/"* "$PWD/iamlive/.iamlive/"*
+
+    unset HTTP_PROXY
+    unset HTTPS_PROXY
+    unset AWS_CA_BUNDLE
+    ```
+
 ## Authors
 
 This repository is maintained by [Erlon Pinheiro](https://github.com/erlonpinheiro) but it is based on the original created and maintained by [Meir Gabay](https://github.com/unfor19)
